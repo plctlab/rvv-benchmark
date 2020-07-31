@@ -34,9 +34,9 @@ $ cd build
 $ cmake -DLLVM_TARGETS_TO_BUILD="RISCV" -DLLVM_ENABLE_PROJECTS=clang  -G "Unix Makefiles" ../llvm
 $ make
 
-$ clang --target=riscv64-unknown-elf -march=rv64gv main.c memcpy.s strlen.s strncpy.s vvaddint32.s saxpy.s strcpy.s sgemm.S --sysroot=/home/u/tools/riscv64/install/riscv64-unknown-elf  --gcc-toolchain=/home/u/tools/riscv64/install -o elf  
+$ clang --target=riscv64-unknown-elf -march=rv64gcv main.c memcpy.s strlen.s strncpy.s vvaddint32.s saxpy.s strcpy.s sgemm.S --sysroot=/home/u/tools/riscv64/install/riscv64-unknown-elf  --gcc-toolchain=/home/u/tools/riscv64/install -o elf  
 
-$ spike --isa=rv64gv pk elf
+$ spike --isa=rv64gcv pk elf
 ```  
 &ensp; &ensp;&ensp;where the option of sysroot and gcc-toolchain will help you find the location of header files and libraries. The executing commands of clang and spike have added into Makefile, where you can input "make" to run our test, make sure your installing location of riscv-gnu-toolchain correct before inputing "make" command, or you can modify the right path of riscv-gnu-toolchain in your local computer.  
 

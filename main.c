@@ -13,7 +13,6 @@ int main(void){
 	printf("\033[1m\033[45;33m rvv-benchmark \033[0m\n");
         
 	//--------------------------//
-
 	const char srcstr[] = "ABCDEFGH";
               char dststr[] = "abcdefgh";
 		
@@ -22,9 +21,9 @@ int main(void){
 	printf(" srcstr[] = ABCDEFGH, dststr[] = abcdefgh, after calling strcpy.s     \n ");
 	printf("dststr[] = ");
 	printf("%s \n", dststr);
-	
-        //---------------------------//
+        printf("//strcpy.s Pass ----------------------// \n\n");	
 
+        //---------------------------//
 	printf("//strncpy.s---------------------// \n");
 	const char srcnstr[] = "ABCDEFGH";
               char dstnstr[] = "abcdefgh";
@@ -32,9 +31,9 @@ int main(void){
 	printf(" srcnstr[] = ABCDEFGH, dstnstr[] = abcdefgh, n=3,  after calling strcpy.s     \n ");
         printf("dstnstr[] = ");
 	printf("%s \n", dstnstr);
+        printf("//strncpy.s Pass ----------------------// \n\n");
 
         //---------------------------//
-       
        	printf("//vvaddint32.s---------------------// \n");
 	size_t n=5;
         const int x[5]= { 1, 2, 3, 4, 5};
@@ -44,18 +43,18 @@ int main(void){
 	for(int i=0; i<n; i++)
 	printf("%d, ", z[i]);
 	printf("\n");
+        printf("//vvaddint32.s Pass---------------------// \n\n");
 
         //---------------------------//
-       
        	printf("//memcpy.s and strlen.s---------// \n");
         char* src="hellowilliam";
 	char dest[20];
 	size_t m= strlen(src)+1;
 	memcpy(dest, src, m);
 	printf("%s \n", dest);
+        printf("//memcpy.s and strlen.s Pass---------// \n\n");
 
         //---------------------------//
-       
        	printf("//saxpy.s---------------------// \n");
         const float xx[7] = {7, 7, 7, 7, 7, 7, 7};
               float yy[7] = {1, 1, 1, 1, 1, 1, 1};
@@ -65,9 +64,9 @@ int main(void){
 	for(int i=0; i<p; i++)
         printf("%f, ", yy[i]);
         printf("\n");
-
-       //---------------------------//
+        printf("//saxpy.s Pass---------------------// \n\n");
        
+        //---------------------------//
 	printf("//sgemm.S---------------------// \n");
         unsigned int n1 = 16;
         unsigned int m1 = 16;
@@ -90,10 +89,7 @@ int main(void){
         size_t ldc = 1;
 
         sgemm_nn(n1, m1, k1, &a1[0][0], lda, &b1[0][0], ldb, &c1[0][0], ldc);
- 
-       //---------------------------//
-
-        printf("//---------------------------// \n");
+        printf("//sgemm.S Pass---------------------// \n\n");
 
 	return 0;
 }
