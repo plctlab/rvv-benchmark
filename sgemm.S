@@ -25,7 +25,10 @@
 #define bp a5
 #define bstride a6
 #define cp a7
-#define cstride t0
+# Don't know the stack offset for this argument, so just assume cstride is
+# same as astride.
+# #define cstride t0
+#define cstride astride
 #define kt t1
 #define nt t2
 #define bnp t3
@@ -45,11 +48,16 @@
 # This version holds a 16*VLMAX block of C matrix in vector registers
 # in inner loop, but otherwise does not cache or TLB tiling.
 
+#define FRAMESIZE 1024
+#define OFFSET0 0
+#define OFFSET1 64
+#define OFFSET2 128
+
 sgemm_nn:
-#    addi sp, sp, -FRAMESIZE
-#    sd s0, OFFSET(sp)
-#    sd s1, OFFSET(sp)
-#    sd s2, OFFSET(sp)
+    addi sp, sp, -FRAMESIZE
+    sd s0, OFFSET0(sp)
+    sd s1, OFFSET1(sp)
+    sd s2, OFFSET2(sp)
 
     # Check for zero size matrices        
     beqz n, exit
@@ -57,7 +65,9 @@ sgemm_nn:
     beqz k, exit
 
     # Convert elements strides to byte strides.
-#    ld cstride, OFFSET(sp)   # Get arg from stack frame
+    # Don't know the stack offset for this argument, so just assume cstride is
+    # same as astride.
+    # ld cstride, OFFSET3(sp)   # Get arg from stack frame
     slli astride, astride, 2
     slli bstride, bstride, 2
     slli cstride, cstride, 2
@@ -73,7 +83,7 @@ c_row_loop: # Loop across rows of C blocks
     mv cnp, cp # Initialize C n-loop pointer
 
 c_col_loop: # Loop across one row of C blocks
-#    vsetvli nvl, nt, e32, ta, ma  # 32-bit vectors, LMUL=1
+    vsetvli nvl, nt, e32, m1, ta, ma  # 32-bit vectors, LMUL=1
 
     mv akp, ap   # reset pointer into A to beginning
     mv bkp, bnp # step to next column in B matrix
@@ -214,8 +224,8 @@ end_rows:
     # Not done.
 
 exit:
-#    ld s0, OFFSET(sp)
-#    ld s1, OFFSET(sp)
-#    ld s2, OFFSET(sp)
-#    addi sp, sp, FRAMESIZE
+    ld s0, OFFSET0(sp)
+    ld s1, OFFSET1(sp)
+    ld s2, OFFSET2(sp)
+    addi sp, sp, FRAMESIZE
     ret
