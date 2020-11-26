@@ -22,7 +22,7 @@ objects = main.c memcpy.s sgemm.S strlen.s vvaddint32.s saxpy.s strcpy.s strncpy
 target = rvv-test
 
 $(target) : $(objects)
-	$(CLANG)  --target=riscv64-unknown-elf -menable-experimental-extensions -march=rv64gcv0p9 --sysroot=$(SYSROOT_DIR) --gcc-toolchain=$(GCC_TOOLCHAIN_DIR) -o $(target) $(objects)
+	$(CLANG)  --target=riscv64-unknown-elf -menable-experimental-extensions -march=rv64gcv1p0 --sysroot=$(SYSROOT_DIR) --gcc-toolchain=$(GCC_TOOLCHAIN_DIR) -o $(target) $(objects)
 
 run :
 	$(SPIKE) --isa=rv64gcv $(PK) $(target)
